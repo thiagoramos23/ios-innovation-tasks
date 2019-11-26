@@ -22,9 +22,10 @@ public class ColorAttribute: ValueTransformer {
     }
     
     override public func reverseTransformedValue(_ value: Any?) -> Any?{
-        guard let color = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(value as! Data) else { return nil }
+        guard let color = try! NSKeyedUnarchiver.unarchivedObject(ofClasses: [UIColor.self], from: value as! Data) else { return nil }
         
-        return color as! UIColor
+        let uiColor = color as! UIColor
+        return uiColor
     }
     
 }

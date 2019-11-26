@@ -25,7 +25,7 @@ class CategoryRepository {
         var categories: [Category] = []
         let dataCategories = self.dataTask.list(entityName: "CategoryData") as! [CategoryData]
         for categoryData in dataCategories {
-            var category = Category(id: categoryData.id!, name: categoryData.name!, color: categoryData.color as! UIColor)
+            let category = Category(id: categoryData.id!, name: categoryData.name!, color: categoryData.color as! UIColor)
             categories.append(category)
         }
         return categories

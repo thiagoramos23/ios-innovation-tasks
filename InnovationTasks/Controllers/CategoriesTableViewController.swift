@@ -11,8 +11,8 @@ import UIKit
 class CategoriesTableViewController: UITableViewController {
     
     var categoryRepository: CategoryRepository?
-    var categories: [CategoryData] = []
-    var choosenCategory : ((CategoryData) -> Void)?
+    var categories: [Category] = []
+    var choosenCategory : ((Category) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ class CategoriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChooseCategoryCell", for: indexPath)
         let category = categories[indexPath.row]
-        cell.textLabel?.text = category.name!
+        cell.textLabel?.text = category.name
         return cell
     }
     

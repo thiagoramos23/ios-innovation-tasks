@@ -12,7 +12,7 @@ class TasksTableViewController: UITableViewController {
     
     private var dateFormatter: DateFormatter = DateFormatter()
     
-    private var tasks: [TaskData] = []
+    private var tasks: [Task] = []
     
     private var taskRepository: TaskRepository?
 
@@ -23,7 +23,7 @@ class TasksTableViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        self.tasks = [] //taskRepository!.getTasks()
+        self.tasks = taskRepository!.getTasks()
         self.tableView.reloadData()
     }
 
@@ -36,14 +36,14 @@ class TasksTableViewController: UITableViewController {
         let task = tasks[indexPath.row]
         
         dateFormatter.dateFormat = "HH:mm"
-        cell.hourLabel.text = dateFormatter.string(from: task.date!)
+        cell.hourLabel.text = dateFormatter.string(from: task.date)
         
         dateFormatter.dateFormat = "dd/MM/yyyy"
-        cell.dateLabel.text = dateFormatter.string(from: task.date!)
+        cell.dateLabel.text = dateFormatter.string(from: task.date)
         
-        cell.cagtegoryNameLabel.text = task.category!.name!
-        cell.categoryView.backgroundColor = task.category?.color as? UIColor
-        cell.taskDescriptionLabel.text = task.taskDescription!
+        cell.cagtegoryNameLabel.text = task.category.name
+        cell.categoryView.backgroundColor = task.category.color
+        cell.taskDescriptionLabel.text = task.name
         
         return cell
     }

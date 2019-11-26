@@ -83,7 +83,7 @@ class CreateTaskViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        self.task.taskDescription = textField.text!
+        self.task.name = textField.text!
     }
     
     // MARK: - UIView Functions

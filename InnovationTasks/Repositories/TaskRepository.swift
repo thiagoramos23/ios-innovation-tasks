@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class TaskRepository {
     private var dataStack: CoreDataStack
@@ -17,21 +18,37 @@ class TaskRepository {
     
     func save(task: Task) {
         let taskData = TaskData(context: self.dataStack.context)
+        taskData.id = UUID()
         taskData.taskDescription = task.name
         taskData.date = task.date
-        
-        let categoryData = CategoryData(context: self.dataStack.context)
-        categoryData.name = task.category.name
-        categoryData.color = task.category.color
-        taskData.category = categoryData
+        taskData.category = convertToData(category: task.category)
         self.dataStack.save()
     }
     
     func update(taskToUpdate: Task) {
     }
     
-    func getTasks() -> [TaskData] {
-        self.dataStack.list(entityName: "TaskData") as! [TaskData]
+    func getTasks() -> [Task] {
+        let tasksData = self.dataStack.list(entityName: "TaskData") as! [TaskData]
+        var tasks: [Task] = []
+        for taskData in tasksData {
+            let task = Task(id: taskData.id!, name: taskData.taskDescription!, date: taskData.date!, category: convertToCategory(categoryData: taskData.category!))
+            tasks.append(task)
+        }
+        
+        return tasks
+    }
+    
+    private func convertToData(category: Category) -> CategoryData {
+        let categoryData   = CategoryData(context: self.dataStack.context)
+        categoryData.id    = category.id
+        categoryData.name  = category.name
+        categoryData.color = category.color
+        return categoryData
+    }
+    
+    private func convertToCategory(categoryData: CategoryData) -> Category {
+        return Category(id: categoryData.id!, name: categoryData.name!, color: categoryData.color! as! UIColor)
     }
 }
 
