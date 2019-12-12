@@ -14,16 +14,18 @@ class TasksTableViewController: UITableViewController {
     
     private var tasks: [Task] = []
     
-    private var taskRepository: TaskRepository = TaskRepository.instance
+    private var taskRepository: TaskRepository?
+    private var categoryRepository: CategoryRepository?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        self.categoryRepository = CategoryRepository(coreDataStack: appDelegate.coreDataStack)
+        self.taskRepository = TaskRepository(coreDataStack: appDelegate.coreDataStack, categoryRepository: self.categoryRepository!)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        self.tasks = taskRepository.getTasks()
+        self.tasks = taskRepository!.getTasks()
         self.tableView.reloadData()
     }
 
@@ -42,7 +44,7 @@ class TasksTableViewController: UITableViewController {
         cell.dateLabel.text = dateFormatter.string(from: task.date)
         
         cell.cagtegoryNameLabel.text = task.category.name
-        cell.categoryView.backgroundColor = task.category.color as? UIColor
+        cell.categoryView.backgroundColor = task.category.color
         cell.taskDescriptionLabel.text = task.name
         
         return cell

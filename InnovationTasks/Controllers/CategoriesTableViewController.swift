@@ -10,18 +10,18 @@ import UIKit
 
 class CategoriesTableViewController: UITableViewController {
     
-    var categoryRepository: CategoryRepository = CategoryRepository.instance
+    var categoryRepository: CategoryRepository?
     var categories: [Category] = []
     var choosenCategory : ((Category) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.categoryRepository = CategoryRepository(coreDataStack: appDelegate.coreDataStack)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.categories = self.categoryRepository.getCategories()
+        self.categories = self.categoryRepository!.getCategories()
     }
 
     // MARK: - Table view data source
