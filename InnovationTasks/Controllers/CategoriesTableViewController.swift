@@ -10,18 +10,18 @@ import UIKit
 
 class CategoriesTableViewController: UITableViewController {
     
-    var categoryRepository: CategoryRepository?
-    var categories: [CategoryData] = []
-    var choosenCategory : ((CategoryData) -> Void)?
+    var categoryRepository: CategoryRepository = CategoryRepository.instance
+    var categories: [Category] = []
+    var choosenCategory : ((Category) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.categoryRepository = CategoryRepository(dataTask: appDelegate.coreDataStack)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.categories = self.categoryRepository!.getCategories()
+        self.categories = self.categoryRepository.getCategories()
     }
 
     // MARK: - Table view data source
@@ -37,7 +37,7 @@ class CategoriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChooseCategoryCell", for: indexPath)
         let category = categories[indexPath.row]
-        cell.textLabel?.text = category.name!
+        cell.textLabel?.text = category.name
         return cell
     }
     

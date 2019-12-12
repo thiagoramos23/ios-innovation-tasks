@@ -9,29 +9,23 @@
 import Foundation
 
 class TaskRepository {
-    private var dataStack: CoreDataStack
-        
-    init(dataStack: CoreDataStack) {
-        self.dataStack = dataStack
-    }
+    private var tasks: [Task] = []
     
+    static var instance: TaskRepository = TaskRepository()
+    
+    private init() {
+        self.tasks = []
+    }
+            
     func save(task: Task) {
-        let taskData = TaskData(context: self.dataStack.context)
-        taskData.taskDescription = task.name
-        taskData.date = task.date
-        
-        let categoryData = CategoryData(context: self.dataStack.context)
-        categoryData.name = task.category.name
-        categoryData.color = task.category.color
-        taskData.category = categoryData
-        self.dataStack.save()
+        self.tasks.append(task)
     }
     
     func update(taskToUpdate: Task) {
     }
     
-    func getTasks() -> [TaskData] {
-        self.dataStack.list(entityName: "TaskData") as! [TaskData]
+    func getTasks() -> [Task] {
+        return tasks
     }
 }
 

@@ -15,13 +15,12 @@ class CreateTaskViewController: UITableViewController, UITextFieldDelegate {
 
     private var selectedIndexPath: IndexPath?
     
-    private var taskRepository: TaskRepository?
+    private var taskRepository: TaskRepository = TaskRepository.instance
     
     var task: Task = Task()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.taskRepository = TaskRepository(dataStack: appDelegate.coreDataStack)
         dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
         datePicker.datePickerMode = .dateAndTime
     }
@@ -69,7 +68,7 @@ class CreateTaskViewController: UITableViewController, UITextFieldDelegate {
     // MARK: - Action buttons
     
     @IBAction func tapSaveButton(_ sender: Any) {
-        taskRepository!.save(task: task)
+        taskRepository.save(task: task)
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -83,7 +82,7 @@ class CreateTaskViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        self.task.taskDescription = textField.text!
+        self.task.name = textField.text!
     }
     
     // MARK: - UIView Functions
