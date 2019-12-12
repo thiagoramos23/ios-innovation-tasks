@@ -41,7 +41,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func createCategories() {
-        
+        let colorWithNames: [String:UIColor] = ["Marketing": .black, "Study": .blue, "Food": .green]
+        for (name, color) in colorWithNames {
+            let category = CategoryData(context: self.coreDataStack.context)
+            category.id    = UUID()
+            category.name  = name
+            category.color = color
+            
+            self.coreDataStack.save()
+        }
     }
 }
 
